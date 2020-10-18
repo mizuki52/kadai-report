@@ -49,8 +49,8 @@ public class ReportsUpdateServlet extends HttpServlet {
             r.setTitle(request.getParameter("title"));
             r.setContent(request.getParameter("content"));
             r.setUpdated_at(new Timestamp(System.currentTimeMillis()));
-            String strDate = request.getParameter("attendanceTime");
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+            String strDate = request.getParameter("inputTime");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:");
             java.util.Date date = null;
             try {
                 date = dateFormat.parse(strDate);
@@ -58,20 +58,10 @@ public class ReportsUpdateServlet extends HttpServlet {
                 // TODO 自動生成された catch ブロック
                 e.printStackTrace();
             }
-            Time attendanceTime = new Time(date.getTime());
-            r.setAttendance(attendanceTime);
+            Time inputTime = new Time(date.getTime());
+            r.setAttendance(inputTime);
 
-            String strDate02 = request.getParameter("leaveTime");
-            SimpleDateFormat dateFormat02 = new SimpleDateFormat("hh:mm");
-            java.util.Date date02 = null;
-            try {
-                date02 = dateFormat02.parse(strDate02);
-            } catch (ParseException e) {
-                // TODO 自動生成された catch ブロック
-                e.printStackTrace();
-            }
-            Time leaveTime = new Time(date02.getTime());
-            r.setLeave(leaveTime);
+            r.setLeave(inputTime);
 
             List<String> errors = ReportValidator.validate(r);
             if(errors.size() > 0) {
